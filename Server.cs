@@ -309,78 +309,7 @@ namespace Lab5
                 copy?.Close();
             }
         }
-
-        //private void PerformHEAD()
-        //{
-        //    string fullPath = rootDir + WebUtility.UrlDecode(request.Url.AbsolutePath);
-        //    // add filtering for ../ and ./?
-        //    try
-        //    {
-        //        // get the file attributes for file or directory
-        //        var attr = File.GetAttributes(fullPath);
-
-                
-
-        //        // detect whether its a directory or file
-        //        if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
-        //        {
-        //            PrepareResponseHeaders(200, "OK");
-        //            response.ContentType = "text/html;charset=UTF-8";
-        //            response.Close(StatusResponse(), true);
-        //        }
-        //        else
-        //        {
-        //            byte[] fileContents = File.ReadAllBytes(fullPath);
-        //            PrepareResponseHeaders(200, "OK");
-        //            response.ContentType = GetExpectedMIMEType(fullPath.Substring(fullPath.LastIndexOf('.') + 1));
-        //            response.Close(fileContents, true);
-        //        }
-
-        //    }
-        //    catch (UnauthorizedAccessException)
-        //    {
-        //        PrepareResponseHeaders(403, "Forbidden");
-        //        response.ContentType = "text/html;charset=UTF-8";
-        //        response.Close(StatusResponse("You have no rights for accessing this file/directory"), true);
-        //    }
-        //    catch (FileNotFoundException)
-        //    {
-        //        PrepareResponseHeaders(404, "Not found");
-        //        response.ContentType = "text/html;charset=UTF-8";
-        //        response.Close(StatusResponse("File/directory was not found"), true);
-        //    }
-        //    catch (DirectoryNotFoundException)
-        //    {
-        //        PrepareResponseHeaders(404, "Not found");
-        //        response.ContentType = "text/html;charset=UTF-8";
-        //        response.Close(StatusResponse("File/directory was not found"), true);
-        //    }
-        //    catch (ArgumentException)
-        //    {
-        //        PrepareResponseHeaders(400, "Bad request");
-        //        response.ContentType = "text/html;charset=UTF-8";
-        //        response.Close(StatusResponse("Invalid path provided"), true);
-        //    }
-        //    catch (PathTooLongException)
-        //    {
-        //        PrepareResponseHeaders(414, "Path too long");
-        //        response.ContentType = "text/html;charset=UTF-8";
-        //        response.Close(StatusResponse("Path too long"), true);
-        //    }
-        //    catch (NotSupportedException)
-        //    {
-        //        PrepareResponseHeaders(400, "Bad request");
-        //        response.ContentType = "text/html;charset=UTF-8";
-        //        response.Close(StatusResponse("Ivalid path format"), true);
-        //    }
-        //    catch (IOException)
-        //    {
-        //        PrepareResponseHeaders(403, "Target blocked");
-        //        response.ContentType = "text/html;charset=UTF-8";
-        //        response.Close(StatusResponse("File cannot be accesed due to being used by another program"), true);
-        //    }
-        //}
-
+        
         private void PerformDELETE()
         {
             string fullPath = rootDir + WebUtility.UrlDecode(request.Url.AbsolutePath);
