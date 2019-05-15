@@ -40,13 +40,13 @@ namespace Lab5
                 switch (method)
                 {
                     case "GET":
-                        PerformGET();
+                        PerformGET(false);
                         break;
                     case "PUT":
                         PerformPUT();
                         break;
                     case "HEAD":
-                        // TODO: implement
+                        PerformGET(true);
                         break;
                     case "DELETE":
                         PerformDELETE();
@@ -65,29 +65,41 @@ namespace Lab5
             response.Close(StatusResponse("This method is not impelemented"), true);
         }
 
-        private void PerformGET()
+        private void PerformGET(bool HEAD)
         {
             string fullPath = rootDir + WebUtility.UrlDecode(request.Url.AbsolutePath);
-            // add filtering for ../ and ./?
             try
             {
-
-                // get the file attributes for file or directory
                 var attr = File.GetAttributes(fullPath);
 
-                // detect whether its a directory or file
+                // detect whether it's a directory or file
                 if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
                 {
-                    PrepareResponseHeaders(200, "OK");
                     response.ContentType = "text/html;charset=UTF-8";
-                    response.Close(DirContentsResponse(Directory.EnumerateFileSystemEntries(fullPath)), true);
+                    if (!HEAD)
+                    {
+                        PrepareResponseHeaders(200, "OK");
+                        response.Close(DirContentsResponse(Directory.EnumerateFileSystemEntries(fullPath)), true);
+                    }
+                    else
+                    {
+                        PrepareResponseHeaders(400, "Bad request");
+                        response.Close();
+                    }
                 }
                 else
                 {
-                    byte[] fileContents = File.ReadAllBytes(fullPath);
                     PrepareResponseHeaders(200, "OK");
                     response.ContentType = GetExpectedMIMEType(fullPath.Substring(fullPath.LastIndexOf('.') + 1)) + ";charset=UTF-8";
-                    response.Close(fileContents, true);
+                    if (!HEAD)
+                    {
+                        byte[] fileContents = File.ReadAllBytes(fullPath);
+                        response.Close(fileContents, true);
+                    }
+                    else
+                    {
+                        response.Close();
+                    }
                 }
 
             }
@@ -194,7 +206,6 @@ namespace Lab5
             {
                 mode = FileMode.Open;
             }
-            // add filtering for ../ and ./?
             FileStream newFile = null;
             FileStream copy = null;
             bool created = false;
